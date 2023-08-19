@@ -4,10 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
+    <meta name="description" content="Tic Tac Toe game">
+    <meta name="author" content="Agata Deter">
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Hej</h1>
+    <header>
+        <h1>Tic Tac Toe</h1>
+    </header>
+    <main>
+        <div class="turn winner">Agata's turn</div>
+        <div class="board">
+            <div class="cell">X</div>
+            <div class="cell">O</div>
+            <div class="cell">O</div>
+            <div class="cell">X</div>
+            <div class="cell">X</div>
+            <div class="cell">X</div>
+            <div class="cell">X</div>
+            <div class="cell">X</div>
+            <div class="cell">X</div>
+        </div>
+        <section>
+            <input type="text" name="player1-name" id="player1" placeholder="Player 1 name">
+            <input type="text" name="player2-name" id="player2" placeholder="Player 2 name">
+        </section>
+        <section>
+            <button id="startBtn">START</button>
+            <button id="resetBtn">RESET</button>
+        </section>
+
+    </main>
+    <footer>
+        <p>Agata Deter &copy Copyright 2023</p>
+    </footer>
 </body>
 </html>
