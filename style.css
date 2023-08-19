@@ -17,6 +17,11 @@
 body {
     background-color: var(--background);
     font-family: var(--font-family);
+    min-height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
 }
 
 /* HEADER */
@@ -25,9 +30,9 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: scroll;
 
     padding-top: 10px;
-    height: 15vh;
 }
 
 h1 {
@@ -36,11 +41,13 @@ h1 {
 }
 
 /* MAIN */
+
 main {
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    overflow: scroll;
+
+    padding-bottom: 50px;
 }
 
 .turn {
@@ -141,11 +148,50 @@ footer {
     justify-content: center;
     align-items: center;
 
-    height: 5vh;
-    padding-top: 30px;
+    margin-top: auto;
 }
 
 footer p {
     color: var(--white-color);
     font-size: 1.2rem;
 }
+
+@media only screen and (max-width: 600px) {   
+    
+    h1 {
+        font-size: 4rem;
+    }
+
+    main {
+        padding-bottom: 0px;
+    }
+
+    .turn {
+        font-size: 1.5rem;
+    }
+
+    .board {
+        width: 280px;
+        height: 280px;
+    }
+
+    .cell {
+        font-size: 3.3rem;
+    }
+
+    .inputs {
+        padding-top: 30px;
+        padding-bottom: 15px;
+        width: 300px;
+    }
+    
+    input {
+        width: 100%;
+    }
+
+    .buttons {
+        width: 300px;
+        height: 50px;
+     }
+
+  }
