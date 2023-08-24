@@ -25,7 +25,14 @@ const gameBoard = (() => {
         return board[index] = marker;
     }
 
-    return{getBoard, setBoard};
+    const resetBoard = () => {
+        for(let i = 0; i < board.length; i++) {
+            board[i] = "";
+        }
+        return board;
+    }
+
+    return{getBoard, setBoard, resetBoard};
 
 })();
 
@@ -36,35 +43,50 @@ const playerY = Player('dan', "Y");
 let currentPlayer = playerX;
 let isGameOver = false;
 
+const playGame = () => {
 
-
-
-
-
-const checkIfIsGameOver = () => {
-    for(let i = 0; i < 9; i++) {
-        if(gameBoard.getBoard[i] === ""){
-            isGameOver = false;
-            console.log(gameBoard.getBoard[i]);
-        }   
-        }
+    if(checkWin(getCurrentPlayer().getMarker())) {
         isGameOver = true;
-        //displayController.displayWinner();   
-        return isGameOver;
-        
+        displayController.displayWinner(getCurrentPlayer().getMarker());
+        return;
     }
-    
+    changePlayerTurn();
+    displayController.displayTurnText();
+}
 
+const checkWin = (player) => {
+const winArray = [
+    [0, 4, 8],
+    [2, 4, 6],
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8]
+];
+
+    return winArray.some(combination => {
+        return combination.every(index => {
+            return gameBoard.getBoard(index) === player;
+        });
+    });
+  
+}
+
+const getIsGameOver = () => isGameOver;
 
 const changePlayerTurn = () => {
     return currentPlayer = currentPlayer === playerX ? playerY : playerX;
-}
+};
 
 const getCurrentPlayer = () => currentPlayer;
-//square.textContent = gameBoard.getBoard(square.dataset.index);
 
+const gameReset = () => {
+    isGameOver = false;
+}
 
-return {changePlayerTurn, getCurrentPlayer, checkIfIsGameOver}
+return {getCurrentPlayer, playGame, getIsGameOver, gameReset};
 
 })();
 
@@ -73,14 +95,13 @@ const displayController = (() => {
 
     const cell = document.querySelectorAll(".cell");
     const textDisplay = document.querySelector(".winner");
+    const resetBtn = document.querySelector("#resetBtn");
 
     cell.forEach((square) => {
         square.addEventListener("click", () => {
-                if(square.innerText === ""){
+                if(square.innerText === "" && !gameController.getIsGameOver()){
                 square.innerText = gameBoard.setBoard(Number(`${square.dataset.index}`), gameController.getCurrentPlayer().getMarker());
-                gameController.changePlayerTurn();
-                displayTurnText();
-                gameController.checkIfIsGameOver();
+                gameController.playGame();
                 } else {
                     return;
                 }
@@ -88,14 +109,24 @@ const displayController = (() => {
 
     });
 
+    resetBtn.addEventListener("click", () => {
+        gameBoard.resetBoard();
+        for(let i = 0; i < cell.length; i++) {
+            cell[i].innerText = "";
+        }
+        textDisplay.innerText = "";
+        gameController.gameReset();
+    });
+    
+
     const displayTurnText = () => {
         textDisplay.innerText = `${gameController.getCurrentPlayer().getName()}'s turn`;
     };
 
     const displayWinner = () => {
         textDisplay.innerText = `${gameController.getCurrentPlayer().getName()} won this round!`;
-    }
+    };
 
-    return {displayWinner};
+    return {displayWinner, displayTurnText};
 
 })();
