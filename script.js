@@ -1,74 +1,101 @@
-const Gameboard = (() => {
-    const board = ["", "", "", "", "", "", "", "", ""];
 
-    const getBoard = () => board;
 
-    const resetBoard = () => {
-        for(let i = 0; i < 9; i++) {
-               board[i] = ""; 
-        }
-        return board;
-    };
-
-    return {getBoard, resetBoard};
-})();
-
-function Player(name, sign) {
-    this.name = name;
-    this.sign = sign;
-
+const Player = (name, marker) => {
     const getName = () => name;
-    const getSign = () => sign;
+    const getMarker = () => marker;
 
-    return {getName, getSign};
+    return {getName, getMarker};
 }
 
-const GameController = (() => {
-    const playerXnameInput = document.querySelector("#player1");
-    const playerYnameInput = document.querySelector("#player2");
-    const text = document.querySelector(".turn");
-    
-    
-    const start = () => {
-        const playerXname = playerXnameInput.value;
-        const playerYname = playerYnameInput.value;
-        const playerX = Player(playerXname, "X");
-        const playerY = Player(playerYname, "Y");
+const gameBoard = (() => {
 
-        let currentPlayer = playerX;
+    const board = ["", "", "", "", "", "", "", "", ""];
 
-        console.log(`${playerX.getName()}`);
-
-        if(currentPlayer == playerX){
-            text.innerHTML = `${playerX.getName()}'s turn`;
-        } else {
-            text.innerHTML = `${playerY.getName()}'s turn`;
+    const getBoard = (index) => {
+        if(index > board.length) {
+            return;
         }
+        return board[index];
     }
-  
-    return{start};
+
+    const setBoard = (index, marker) => {
+        if(index > board.length) {
+            return;
+        }
+        return board[index] = marker;
+    }
+
+    return{getBoard, setBoard};
+
+})();
+
+const gameController = (() => {
+
+const playerX = Player('agata', "X");
+const playerY = Player('dan', "Y");
+let currentPlayer = playerX;
+let isGameOver = false;
+
+
+
+
+
+
+const checkIfIsGameOver = () => {
+    for(let i = 0; i < 9; i++) {
+        if(gameBoard.getBoard[i] === ""){
+            isGameOver = false;
+            console.log(gameBoard.getBoard[i]);
+        }   
+        }
+        isGameOver = true;
+        //displayController.displayWinner();   
+        return isGameOver;
+        
+    }
+    
+
+
+const changePlayerTurn = () => {
+    return currentPlayer = currentPlayer === playerX ? playerY : playerX;
+}
+
+const getCurrentPlayer = () => currentPlayer;
+//square.textContent = gameBoard.getBoard(square.dataset.index);
+
+
+return {changePlayerTurn, getCurrentPlayer, checkIfIsGameOver}
 
 })();
 
 
+const displayController = (() => {
 
-const DisplayController = (() => {
-    const cell = document.querySelectorAll(".cell"); 
-    const startBtn = document.querySelector("#startBtn");
+    const cell = document.querySelectorAll(".cell");
+    const textDisplay = document.querySelector(".winner");
 
-    startBtn.addEventListener("click", () => GameController.start());
+    cell.forEach((square) => {
+        square.addEventListener("click", () => {
+                if(square.innerText === ""){
+                square.innerText = gameBoard.setBoard(Number(`${square.dataset.index}`), gameController.getCurrentPlayer().getMarker());
+                gameController.changePlayerTurn();
+                displayTurnText();
+                gameController.checkIfIsGameOver();
+                } else {
+                    return;
+                }
+        });
 
-    const updateScreen = () => {
-    for(let i = 0; i < cell.length; i++){
-        cell[i].textContent = "X";
-    }
+    });
+
+    const displayTurnText = () => {
+        textDisplay.innerText = `${gameController.getCurrentPlayer().getName()}'s turn`;
     };
 
-    updateScreen();
+    const displayWinner = () => {
+        textDisplay.innerText = `${gameController.getCurrentPlayer().getName()} won this round!`;
+    }
 
-    return {updateScreen}
-  
+    return {displayWinner};
+
 })();
-    
-
-
