@@ -60,6 +60,7 @@ const displayController = (() => {
             displayTurnText();
             handleClick();
             } else {
+                alert("Please enter both players names!");
                 return;
             }
     });
