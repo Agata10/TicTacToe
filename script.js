@@ -43,7 +43,7 @@ const displayController = (() => {
     const playerYinput = document.querySelector("#player2");
     const startBtn = document.querySelector("#startBtn");
 
-    resetBtn.addEventListener("click", () => {
+        resetBtn.addEventListener("click", () => {
         gameBoard.resetBoard();
         for (let i = 0; i < cell.length; i++) {
             cell[i].innerText = "";
@@ -63,6 +63,13 @@ const displayController = (() => {
                 alert("Please enter both players names!");
                 return;
             }
+    });
+
+    document.addEventListener("keypress", (event) => {
+        if(event.key === "Enter") {
+            event.preventDefault();
+            startBtn.click();
+        }
     });
 
     const handleClick = () => {
