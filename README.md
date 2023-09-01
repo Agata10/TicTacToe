@@ -28,7 +28,7 @@ https://agata10.github.io/TicTacToe/
 ## Setup
 
 1. Fork repository 
-or
+
 2. Clone reposiory
    `git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY`
 
