@@ -38,3 +38,6 @@ The game is traditional tic tac toe for two players that can enter their names.
 
 Althogh, game seems simple, it was challenging for me!
 I'm glad I got working everything as I wanted. Did learn lots of it.
+
+## License 
+[License](LICENSE)
